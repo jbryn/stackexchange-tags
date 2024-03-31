@@ -1,17 +1,25 @@
 "use client";
 
+import { useEffect } from "react";
 import { useQuery } from "react-query";
+
+import data from "@/data.json";
 
 async function fetchTags() {
   const res = await fetch(
-    "https://api.stackexchange.com/2.3/tags?order=desc&sort=popular&site=stackoverflow"
+    // "https://api.stackexchange.com/2.3/tags?order=desc&sort=popular&site=stackoverflow"
+    ""
   );
   if (!res.ok) throw new Error("Api Error");
   return res.json();
 }
 
 export default function Home() {
-  const { data, status } = useQuery("tags", fetchTags);
+  // const { data, status } = useQuery("tags", fetchTags);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

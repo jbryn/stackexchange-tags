@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUp, ArrowDown } from "lucide-react";
+import { ArrowUp, ArrowDown, Check, X } from "lucide-react";
 import { Button } from "../ui/button";
 
 export type Tag = {
@@ -10,6 +10,18 @@ export type Tag = {
   has_synonyms: boolean;
   is_moderator_only: boolean;
   is_required: boolean;
+};
+
+const renderIcon = (value: boolean) => {
+  return (
+    <div className="grid place-items-center">
+      {value ? (
+        <Check size={18} strokeWidth={1} />
+      ) : (
+        <X size={18} strokeWidth={1} />
+      )}
+    </div>
+  );
 };
 
 export const columns: ColumnDef<Tag>[] = [
@@ -52,13 +64,16 @@ export const columns: ColumnDef<Tag>[] = [
   {
     accessorKey: "has_synonyms",
     header: "Has Synonyms",
+    cell: ({ row }) => renderIcon(row.original.has_synonyms),
   },
   {
     accessorKey: "is_moderator_only",
     header: "Is Moderator Only",
+    cell: ({ row }) => renderIcon(row.original.is_moderator_only),
   },
   {
     accessorKey: "is_required",
     header: "Is Required",
+    cell: ({ row }) => renderIcon(row.original.is_required),
   },
 ];

@@ -3,31 +3,31 @@
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 
-import data from "@/data.json";
+import { DataTable } from "@/components/data-table/data-table";
+import { Tag, columns } from "@/components/tags/columns";
 
 async function fetchTags() {
   const res = await fetch(
-    // "https://api.stackexchange.com/2.3/tags?order=desc&sort=popular&site=stackoverflow"
-    ""
+    "https://api.stackexchange.com/2.3/tags?order=desc&sort=popular&site=stackoverflow"
   );
   if (!res.ok) throw new Error("Api Error");
   return res.json();
 }
 
 export default function Home() {
-  // const { data, status } = useQuery("tags", fetchTags);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const { data, isLoading } = useQuery("tags", fetchTags, {
+    staleTime: Infinity,
+  });
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {/* <ul>
-        {qu.data.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
-        ))}
-      </ul> */}
+      <div className="container mx-auto py-10">
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <DataTable columns={columns} data={data.items} />
+        )}
+      </div>
     </main>
   );
 }

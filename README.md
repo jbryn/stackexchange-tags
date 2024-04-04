@@ -14,4 +14,10 @@ npm run dev
 npm start
 ```
 
+In order to run Storybook use:
+
+```bash
+npm run storybook
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

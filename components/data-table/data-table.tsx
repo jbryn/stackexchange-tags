@@ -29,6 +29,9 @@ import {
 
 import { useState } from "react";
 import { Pagination } from "../pagination/pagination";
+import { Label } from "../ui/label";
+import { Frown } from "lucide-react";
+import Loader from "react-js-loader";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -67,7 +70,7 @@ export function DataTable<TData, TValue>({
             <SelectValue placeholder={table.getState().pagination.pageSize} />
           </SelectTrigger>
           <SelectContent side="top">
-            {[10, 20, 30, 40, 50].map((pageSize) => (
+            {[10, 20, 30].map((pageSize) => (
               <SelectItem key={pageSize} value={`${pageSize}`}>
                 {pageSize}
               </SelectItem>
@@ -127,6 +130,55 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <Pagination table={table} />
+      </div>
+    </div>
+  );
+}
+
+export function ErrorState() {
+  return (
+    <div className="rounded-md border my-6">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">Name</TableHead>
+            <TableHead>Count</TableHead>
+            <TableHead>Has Synonyms</TableHead>
+            <TableHead>Is Moderator Only</TableHead>
+            <TableHead>Is Required</TableHead>
+          </TableRow>
+        </TableHeader>
+      </Table>
+      <div className="grid place-items-center px-10 py-[200px]">
+        <Label className="flex items-center gap-3">
+          <Frown /> Sorry, something went wrong
+        </Label>
+      </div>
+    </div>
+  );
+}
+
+export function LoadingState() {
+  return (
+    <div className="rounded-md border my-6">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">Name</TableHead>
+            <TableHead>Count</TableHead>
+            <TableHead>Has Synonyms</TableHead>
+            <TableHead>Is Moderator Only</TableHead>
+            <TableHead>Is Required</TableHead>
+          </TableRow>
+        </TableHeader>
+      </Table>
+      <div className="grid place-items-center px-10 py-[200px]">
+        <Loader
+          type="spinner-default"
+          bgColor="black"
+          color="black"
+          size={50}
+        />
       </div>
     </div>
   );

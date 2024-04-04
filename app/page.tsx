@@ -2,9 +2,15 @@
 
 import { useQuery } from "react-query";
 
-import { DataTable } from "@/components/data-table/data-table";
+import {
+  DataTable,
+  ErrorState,
+  LoadingState,
+} from "@/components/data-table/data-table";
 
 import { columns } from "@/components/data-table/columns";
+import { useEffect } from "react";
+import { Label } from "@/components/ui/label";
 
 async function fetchTags() {
   const res = await fetch(
@@ -14,19 +20,38 @@ async function fetchTags() {
   return res.json();
 }
 
+interface DataView {
+  isLoading: boolean;
+  error: any;
+  data: any;
+}
+
+function DataView({ isLoading, error, data }: DataView) {
+  if (isLoading) {
+    return <LoadingState />;
+  }
+
+  if (error) {
+    return <ErrorState />;
+  }
+
+  return <DataTable columns={columns} data={data.items} />;
+}
+
 export default function Home() {
-  const { data, isLoading } = useQuery("tags", fetchTags, {
+  const { data, isLoading, error } = useQuery("tags", fetchTags, {
     staleTime: Infinity,
   });
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="container mx-auto py-10">
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <DataTable columns={columns} data={data.items} />
-        )}
+      <div className="container h-screen mx-auto py-10">
+        <Label className="text-[32px]">Stack Exchange Tags</Label>
+        <DataView isLoading={isLoading} error={error} data={data} />
       </div>
     </main>
   );

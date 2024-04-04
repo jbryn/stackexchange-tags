@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
 import { useQuery } from "react-query";
 
 import { DataTable } from "@/components/data-table/data-table";
 
-import { Tag, columns } from "@/components/tags/columns";
+import { columns } from "@/components/data-table/columns";
 
 async function fetchTags() {
   const res = await fetch(
